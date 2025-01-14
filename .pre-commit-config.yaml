@@ -1,0 +1,23 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: local
+    hooks:
+      - id: ruff sort imports
+        name: ruff sort imports
+        entry: ruff check --select I --fix
+        require_serial: true
+        language: system
+        types_or: [python, pyi, jupyter]
+      - id: ruff format
+        name: ruff format
+        entry: ruff format
+        language: system
+        require_serial: true
+        types_or: [python, pyi, jupyter]
+      - id: ruff lint
+        name: ruff lint
+        entry: ruff check --force-exclude
+        language: system
+        types_or: [python, pyi, jupyter]
+        require_serial: true
