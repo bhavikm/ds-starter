@@ -17,5 +17,4 @@ outputs:
   aggregate_metrics_file:
     type: uri_file
     mode: rw_mount
-    default: "aggregate_metrics.json"
 environment: azureml:aml_score_env@latest  # should match name used in aml_setup/create-env.yaml
