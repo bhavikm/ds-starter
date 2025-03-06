@@ -11,9 +11,11 @@ def evaluate(
     aggregate_metrics_file: str,
     local_output_folder: Path = Path("outputs"),
 ):
-    # Load the generations json file
+    # Load the generations JSONL file
+    inferences = []
     with open(inferences_json_file, "r") as file:
-        inferences = json.load(file)
+        for line in file:
+            inferences.append(json.loads(line))
     pprint(inferences)
 
     print("Hello! In the evaluation step.")
@@ -32,6 +34,9 @@ def evaluate(
     with open(local_output_folder / aggregate_metrics_file, "w") as file:
         json.dump(aggregate_metrics_calculations, file)
     print(f"Saved aggregate metrics to {local_output_folder}/aggregate_metrics.json")
+
+    with open(aggregate_metrics_file, "w") as file:
+        json.dump(aggregate_metrics_calculations, file)
 
 
 if __name__ == "__main__":
