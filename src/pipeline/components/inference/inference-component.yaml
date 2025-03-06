@@ -1,0 +1,18 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+type: command
+
+display_name: Inference evaluation component
+name: inference_evaluation
+description: Run evaluation inference on the application agent implementation using an evaluation dataset.
+version: 1
+
+code: ./
+command: >-
+  python inference.py --evaluation_data_file ${{inputs.evaluation_data_file}} --inferences_file ${{outputs.inferences_file}}
+inputs:
+  evaluation_data_file:
+    type: uri_file
+outputs:
+  inferences_file:
+    type: uri_file
+environment: azureml:aml_inference_env@latest  # should match name used in inference-aml-env.yaml

@@ -1,0 +1,21 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+type: command
+
+display_name: pytorch-train-component
+name: pytorch_train_component
+description: Train a Pytorch model.
+version: 1
+
+code: ./
+command: >-
+  python score.py --inferences_json_file ${{inputs.inferences_file}} --aggregate_metrics_file ${{outputs.aggregate_metrics_file}}
+inputs:
+  inferences_file:
+    type: uri_file
+    mode: ro_mount
+outputs:
+  aggregate_metrics_file:
+    type: uri_file
+    mode: rw_mount
+    default: "aggregate_metrics.json"
+environment: azureml:aml_score_env@latest  # should match name used in aml_setup/create-env.yaml
