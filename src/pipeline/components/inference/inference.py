@@ -14,7 +14,7 @@ def inference(query: str) -> str:
 
 def run_inference(
     evaluation_data_file: str,
-    inferences_json_file: str,
+    inferences_file: str,
 ):
     print("Hello! In the inference step.")
 
@@ -31,10 +31,10 @@ def run_inference(
         evaluation_inferences.append(data)
 
     # output JSONL file
-    with open(inferences_json_file, "w") as file:
+    with open(inferences_file, "w") as file:
         for inference_result in evaluation_inferences:
             file.write(json.dumps(inference_result) + "\n")
-    print(f"Saved inferences to {inferences_json_file}")
+    print(f"Saved inferences to {inferences_file}")
 
 
 if __name__ == "__main__":

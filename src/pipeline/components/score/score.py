@@ -33,7 +33,7 @@ def evaluate(
 
     with open(local_output_folder / aggregate_metrics_file, "w") as file:
         json.dump(aggregate_metrics_calculations, file)
-    print(f"Saved aggregate metrics to {local_output_folder}/aggregate_metrics.json")
+    print(f"Saved aggregate metrics to {local_output_folder}/{aggregate_metrics_file}")
 
     with open(aggregate_metrics_file, "w") as file:
         json.dump(aggregate_metrics_calculations, file)
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--inferences_json_file", type=str, required=True)
     parser.add_argument("--local_output_folder", type=Path, default=Path("outputs"))
-    parser.add_argument("aggregate_metrics_file", type=str)
+    parser.add_argument("--aggregate_metrics_file", type=str)
     args = parser.parse_args()
     evaluate(
         inferences_json_file=args.inferences_json_file,
