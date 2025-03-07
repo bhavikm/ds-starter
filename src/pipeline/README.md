@@ -39,5 +39,5 @@ Once you have verified that the two custom environments are built succesfully in
 Ensure you in the `src/pipeline` directory, then run:
 
 ```bash
-az ml job create -f aml-components-pipeline.yaml --workspace-name aml-testing --resource-group bhavikmaneck-rg
+az ml job create -f aml-components-pipeline.yaml --workspace-name <YOUR_AML_WORKSPACE_NAME> --resource-group <YOUR_AML_RG>
 ```
