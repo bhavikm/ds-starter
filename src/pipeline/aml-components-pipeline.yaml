@@ -31,8 +31,3 @@ jobs:
       aggregate_metrics_file:
         type: uri_file
         mode: rw_mount
-identity:
-  # use with a managed identity assigned to compute cluster
-  # type: managed_identity
-  # use with user identity that is logged in to AML CLI
-  type: user_identity
