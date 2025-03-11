@@ -23,6 +23,7 @@ def run_inference(
     with open(evaluation_data_file, "r") as file:
         for line in file:
             evaluation_data.append(json.loads(line))
+    print("Evaluation data loaded:")
     pprint(evaluation_data)
 
     evaluation_inferences = []
@@ -35,6 +36,8 @@ def run_inference(
         for inference_result in evaluation_inferences:
             file.write(json.dumps(inference_result) + "\n")
     print(f"Saved inferences to {inferences_file}")
+    print("Evaluation data with inferences:")
+    pprint(evaluation_inferences)
 
 
 if __name__ == "__main__":
