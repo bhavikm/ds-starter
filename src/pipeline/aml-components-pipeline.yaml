@@ -1,0 +1,33 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+
+display_name: Semantic kernel evaluatoin run  # change this name each run to be descriptive
+experiment_name: agent_evaluation_pipeline
+description: Evaluation pipeline to run inference and scoring on the semantic kernel agent.
+
+inputs:
+  evaluation_data_file: 
+    type: uri_file
+    path: ./test_data.jsonl
+
+jobs:
+  inference_component:
+    type: command
+    component: components/inference/inference-component.yaml
+    compute: azureml:cluster-cpu
+    inputs:
+      evaluation_data_file: ${{parent.inputs.evaluation_data_file}}
+    outputs:
+      inferences_file: 
+        type: uri_file
+        mode: rw_mount
+  score_component:
+    type: command
+    component: components/score/score-component.yaml
+    compute: azureml:cluster-cpu
+    inputs:
+      inferences_file: ${{parent.jobs.inference_component.outputs.inferences_file}}
+    outputs:
+      aggregate_metrics_file:
+        type: uri_file
+        mode: rw_mount
