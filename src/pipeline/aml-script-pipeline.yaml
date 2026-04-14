@@ -1,0 +1,39 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+
+display_name: Test Evaluation  # change this name each run to be descriptive
+experiment_name: test_evaluation_pipeline
+description: Evaluation pipeline to run inference and scoring on the test data.
+
+
+jobs:
+  inference_component:
+    type: command
+    inputs:
+      evaluation_data_file:
+        type: uri_file
+        path: ./test_data.jsonl
+    command: >-
+      python pipeline/components/inference/inference.py --evaluation_data_file ${{inputs.evaluation_data_file}} --inferences_file ${{outputs.inferences_file}}
+    compute: azureml:cluster-cpu
+    outputs:
+      inferences_file: 
+        type: uri_file
+        mode: rw_mount
+    code: ../
+    environment: azureml:agent_evaluation_environment:2
+  score_component:
+    type: command
+    inputs:
+      inferences_file:
+        type: uri_file
+        path: ${{parent.jobs.inference_component.outputs.inferences_file}}
+    command: >-
+      python pipeline/components/score/score.py --inferences_json_file ${{inputs.inferences_file}} --aggregate_metrics_file ${{outputs.aggregate_metrics_file}}
+    compute: azureml:cluster-cpu
+    outputs:
+      aggregate_metrics_file:
+        type: uri_file
+        mode: rw_mount
+    code: ../
+    environment: azureml:agent_evaluation_environment:2
